@@ -27,7 +27,8 @@ public class DefaultExtensionValueToInstantConverter implements ValueConverter<E
     private static final byte DATETIME_TYPE = 0x04;
 
     private Instant fromBytes(byte[] bytes) throws IOException {
-        ByteBuffer buffer = ByteBuffer.wrap(bytes);
+        ByteBuffer buffer = ByteBuffer.allocate(16);
+        buffer.put(bytes).rewind();
         buffer.order(ByteOrder.LITTLE_ENDIAN);
         long epochSeconds = buffer.getLong();
         int nanos = buffer.getInt();
